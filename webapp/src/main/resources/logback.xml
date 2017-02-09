@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender" target="System.err">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern><![CDATA[%d{YY-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n]]></pattern>
+		</encoder>
+	</appender>
+
+	<logger name="com.github.cbuschka.tmply" level="INFO" />
+	<logger name="org" level="WARN" />
+	<logger name="com" level="WARN" />
+	<logger name="org.flywaydb" level="INFO" />
+
+	<root level="debug">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>
