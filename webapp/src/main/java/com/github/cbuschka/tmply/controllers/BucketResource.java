@@ -61,6 +61,11 @@ public class BucketResource
 			throw new IllegalArgumentException("Invalid bucket name '" + request.getBucketName() + "'.");
 		}
 
+		if( request.getData() == null || request.getData().length() < 100 ) {
+
+			throw new IllegalArgumentException("Invalid bucket data, is required and must be shorter than 100 characters.");
+		}
+
 		Bucket bucket = this.publishBucketBusinessService.publish(request);
 		return new ResponseEntity<>(bucket, HttpStatus.OK);
 
