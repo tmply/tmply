@@ -4,8 +4,8 @@
 
 Live at [tmply on heroku](https://tmply.herokuapp.com).
 
-Based on an idea of [Marcel](https://github.com/niesfisch).
+Based on an idea by [Marcel](https://github.com/niesfisch).
 
 ## License
 
-[GPL](LICENSE)
+[GPL-3.0](LICENSE)
