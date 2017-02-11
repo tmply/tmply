@@ -10,7 +10,7 @@
 Live at [tmply on heroku](https://tmply.herokuapp.com).
 
 ## Author
-Written by [Cornelius Buschka](https.//github.com/cbuschka).
+Written by [Cornelius Buschka](https://github.com/cbuschka).
 
 Based on an idea by [Marcel](https://github.com/niesfisch).
 
