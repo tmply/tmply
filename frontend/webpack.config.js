@@ -1,7 +1,9 @@
 "use strict";
 var webpack = require('webpack');
+var path = require('path');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const HOST = process.env.HOST || "127.0.0.1";
 const PORT = process.env.PORT || "8081";
@@ -61,6 +63,11 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: './src/index.html'
 		}),
+		new CopyWebpackPlugin([
+			{ context: path.join(__dirname, 'src'),
+			  from: { glob: './assets/**/*', dot: false},
+			  to: '.' }
+        	], { debug: false, copyUnmodified: true }),
 		new webpack.SourceMapDevToolPlugin(),
 	]
 };
