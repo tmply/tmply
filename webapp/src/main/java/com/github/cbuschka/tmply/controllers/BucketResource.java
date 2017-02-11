@@ -56,9 +56,9 @@ public class BucketResource
 	@ResponseBody
 	ResponseEntity<Bucket> publishBucket(@RequestBody PublishBucketRequest request)
 	{
-		if (request.getBucketName() == null || request.getBucketName().trim().length() < 8)
+		if (request.getBucketName() == null || request.getBucketName().trim().length() < 8 || request.getBucketName().length() >= 100)
 		{
-			throw new IllegalArgumentException("Invalid bucket name '" + request.getBucketName() + "'.");
+			throw new IllegalArgumentException("Invalid bucket name '" + request.getBucketName() + "', must be longer than 7 characters and shorter than 100.");
 		}
 
 		if( request.getData() == null || request.getData().length() < 100 ) {
