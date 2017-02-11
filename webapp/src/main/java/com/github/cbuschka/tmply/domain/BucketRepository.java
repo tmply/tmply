@@ -1,5 +1,7 @@
 package com.github.cbuschka.tmply.domain;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -9,12 +11,17 @@ import java.util.Map;
 @Repository
 public class BucketRepository
 {
+	private static Logger log = LoggerFactory.getLogger(BucketRepository.class);
+
 	private Map<String, Bucket> buckets = new HashMap<>();
 
 	public synchronized Bucket putBucket(String bucketName, String data)
 	{
 		Bucket bucket = new Bucket(bucketName, data);
 		buckets.put(bucketName, bucket);
+
+		log.info("Bucket {} added.", bucketName);
+
 		return bucket;
 	}
 
@@ -26,6 +33,9 @@ public class BucketRepository
 		{
 			bucket.setEvictionTimeMillis(now + (1000 * 60));
 		}
+
+		log.info("Bucket {} accessed.", bucketName);
+
 		return bucket;
 	}
 
@@ -38,7 +48,11 @@ public class BucketRepository
 			Map.Entry<String, Bucket> entry = iter.next();
 			if (entry.getValue().isEvictableAt(now))
 			{
+				String bucketName = entry.getKey();
+
 				iter.remove();
+
+				log.info("Bucket {} evicted.", bucketName);
 			}
 		}
 	}
