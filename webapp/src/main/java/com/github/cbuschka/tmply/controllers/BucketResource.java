@@ -31,24 +31,10 @@ public class BucketResource
 		Bucket bucket = this.consumeBucketBusinessService.consume(bucketName);
 		if (bucket == null)
 		{
-			delay();
-
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
 		return new ResponseEntity<>(bucket, HttpStatus.OK);
-	}
-
-	private void delay()
-	{
-		try
-		{
-			Thread.sleep(1000 * 3);
-		}
-		catch (InterruptedException ex)
-		{
-			Thread.currentThread().interrupt();
-		}
 	}
 
 	@RequestMapping(value = "/api/buckets", method = RequestMethod.POST)
