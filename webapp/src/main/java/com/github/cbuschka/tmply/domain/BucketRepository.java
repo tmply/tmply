@@ -29,7 +29,7 @@ public class BucketRepository
 	{
 		long now = System.currentTimeMillis();
 		Bucket bucket = buckets.get(bucketName);
-		if( bucket != null )
+		if (bucket != null)
 		{
 			bucket.setEvictionTimeMillis(now + (1000 * 60));
 		}
@@ -41,6 +41,8 @@ public class BucketRepository
 
 	public synchronized void evictBuckets()
 	{
+		int bucketsBeforeEviction = this.buckets.size();
+
 		long now = System.currentTimeMillis();
 		for (Iterator<Map.Entry<String, Bucket>> iter = this.buckets.entrySet().iterator();
 			 iter.hasNext(); )
@@ -52,8 +54,10 @@ public class BucketRepository
 
 				iter.remove();
 
-				log.info("Bucket {} evicted.", bucketName);
+				log.debug("Bucket {} evicted.", bucketName);
 			}
 		}
+
+		log.info("{} bucket(s) in use after eviction, {} removed.", this.buckets.size(), bucketsBeforeEviction - this.buckets.size());
 	}
 }
