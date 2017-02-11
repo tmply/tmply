@@ -29,12 +29,15 @@ public class BucketRepository
 	{
 		long now = System.currentTimeMillis();
 		Bucket bucket = buckets.get(bucketName);
-		if (bucket != null)
+		if( bucket != null )
 		{
 			bucket.setEvictionTimeMillis(now + (1000 * 60));
+			log.info("Bucket {} accessed.", bucketName);
 		}
-
-		log.info("Bucket {} accessed.", bucketName);
+		else
+		{
+			log.info("Accessed bucket {} not found.", bucketName);
+		}
 
 		return bucket;
 	}
@@ -58,6 +61,6 @@ public class BucketRepository
 			}
 		}
 
-		log.info("{} bucket(s) in use after eviction, {} removed.", this.buckets.size(), bucketsBeforeEviction - this.buckets.size());
+		log.info("{} bucket(s) in use after eviction, {} remove", this.buckets.size(), bucketsBeforeEviction-this.buckets.size());
 	}
 }
