@@ -61,7 +61,7 @@ public class BucketResource
 			throw new IllegalArgumentException("Invalid bucket name '" + request.getBucketName() + "', must be longer than 7 characters and shorter than 100.");
 		}
 
-		if( request.getData() == null || request.getData().length() < 100 ) {
+		if( request.getData() == null || request.getData().length() >= 100 ) {
 
 			throw new IllegalArgumentException("Invalid bucket data, is required and must be shorter than 100 characters.");
 		}
