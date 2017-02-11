@@ -1,6 +1,6 @@
 # tmply - Temporary Variable as a service
 
-#### (No, this is no extension of going serverless!)
+#### (No, this is no extension to going serverless!)
 
 ## What is tmply?
 * You create a named bucket with data.
