@@ -4,13 +4,13 @@ public class Bucket
 {
 	private String bucketName;
 	private String data;
-	private long evictionTimeMillis;
+	private long expiryTimeMillis;
 
-	public Bucket(String bucketName, String data)
+	public Bucket(String bucketName, String data, long expiryTimeMillis)
 	{
 		this.bucketName = bucketName;
 		this.data = data;
-		this.evictionTimeMillis = System.currentTimeMillis()+(1000*60*5);
+		this.expiryTimeMillis = expiryTimeMillis;
 	}
 
 	public String getBucketName()
@@ -23,12 +23,13 @@ public class Bucket
 		return data;
 	}
 
-	public boolean isEvictableAt(long timeMillis) {
-		return timeMillis >= this.evictionTimeMillis;
+	public synchronized boolean hasExpiredAt(long timeMillis)
+	{
+		return timeMillis >= this.expiryTimeMillis;
 	}
 
-	public void setEvictionTimeMillis(long evictionTimeMillis)
+	public synchronized void setExpiryTimeMillis(long expiryTimeMillis)
 	{
-		this.evictionTimeMillis = evictionTimeMillis;
+		this.expiryTimeMillis = expiryTimeMillis;
 	}
 }

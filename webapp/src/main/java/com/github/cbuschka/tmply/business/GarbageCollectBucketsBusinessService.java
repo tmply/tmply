@@ -10,14 +10,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class GarbageCollectBucketsBusinessService
 {
-	private static Logger log = LoggerFactory.getLogger(GarbageCollectBucketsBusinessService.class);
-
 	@Autowired
 	private BucketRepository bucketRepository;
 
-	@Scheduled(initialDelay = 1000*30, fixedDelay = 1000*60*1)
-	public void evictBuckets() {
-
+	@Scheduled(initialDelay = 1000 * 30, fixedDelay = 1000 * 30)
+	public void evictBuckets()
+	{
 		this.bucketRepository.evictBuckets();
 	}
 }

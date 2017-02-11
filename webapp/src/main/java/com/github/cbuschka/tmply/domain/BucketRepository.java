@@ -11,13 +11,23 @@ import java.util.Map;
 @Repository
 public class BucketRepository
 {
+	private static final int MAX_BUCKET_COUNT = 1000;
+	private static final long MILLIS_UNTIL_EXPIRY_AFTER_ACCESS = 1000 * 30;
+	private static final long MILLIS_UNTIL_EXPIRATION_AFTER_CREATION = 1000 * 60 * 5;
+
 	private static Logger log = LoggerFactory.getLogger(BucketRepository.class);
 
-	private Map<String, Bucket> buckets = new HashMap<>();
+	private Map<String, Bucket> buckets = new HashMap<>(MAX_BUCKET_COUNT * 2);
 
 	public synchronized Bucket putBucket(String bucketName, String data)
 	{
-		Bucket bucket = new Bucket(bucketName, data);
+		if (!this.buckets.containsKey(bucketName) && this.buckets.size() >= MAX_BUCKET_COUNT)
+		{
+			throw new IllegalStateException("No bucket slot available. Retry later.");
+		}
+
+		long now = System.currentTimeMillis();
+		Bucket bucket = new Bucket(bucketName, data, now + MILLIS_UNTIL_EXPIRATION_AFTER_CREATION);
 		buckets.put(bucketName, bucket);
 
 		log.info("Bucket {} added.", bucketName);
@@ -29,15 +39,14 @@ public class BucketRepository
 	{
 		long now = System.currentTimeMillis();
 		Bucket bucket = buckets.get(bucketName);
-		if( bucket != null )
+		if (bucket == null || bucket.hasExpiredAt(now))
 		{
-			bucket.setEvictionTimeMillis(now + (1000 * 60));
-			log.info("Bucket {} accessed.", bucketName);
+			log.info("Accessed bucket {} not found/ has expired.", bucketName);
+			return null;
 		}
-		else
-		{
-			log.info("Accessed bucket {} not found.", bucketName);
-		}
+
+		bucket.setExpiryTimeMillis(now + MILLIS_UNTIL_EXPIRY_AFTER_ACCESS);
+		log.info("Bucket {} accessed.", bucketName);
 
 		return bucket;
 	}
@@ -51,7 +60,7 @@ public class BucketRepository
 			 iter.hasNext(); )
 		{
 			Map.Entry<String, Bucket> entry = iter.next();
-			if (entry.getValue().isEvictableAt(now))
+			if (entry.getValue().hasExpiredAt(now))
 			{
 				String bucketName = entry.getKey();
 
@@ -61,6 +70,6 @@ public class BucketRepository
 			}
 		}
 
-		log.info("{} bucket(s) in use after eviction, {} removed.", this.buckets.size(), bucketsBeforeEviction-this.buckets.size());
+		log.info("{} bucket(s) in use after eviction, {} removed.", this.buckets.size(), bucketsBeforeEviction - this.buckets.size());
 	}
 }
