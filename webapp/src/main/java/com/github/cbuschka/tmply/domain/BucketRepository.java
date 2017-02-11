@@ -61,6 +61,6 @@ public class BucketRepository
 			}
 		}
 
-		log.info("{} bucket(s) in use after eviction, {} remove", this.buckets.size(), bucketsBeforeEviction-this.buckets.size());
+		log.info("{} bucket(s) in use after eviction, {} removed.", this.buckets.size(), bucketsBeforeEviction-this.buckets.size());
 	}
 }
