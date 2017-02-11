@@ -24,7 +24,7 @@ public class Bucket
 	}
 
 	public boolean isEvictableAt(long timeMillis) {
-		return timeMillis <= this.evictionTimeMillis;
+		return timeMillis >= this.evictionTimeMillis;
 	}
 
 	public void setEvictionTimeMillis(long evictionTimeMillis)
