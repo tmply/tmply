@@ -15,13 +15,9 @@ public class GarbageCollectBucketsBusinessService
 	@Autowired
 	private BucketRepository bucketRepository;
 
-	@Scheduled(initialDelay = 1000*30, fixedDelay = 1000*30)
+	@Scheduled(initialDelay = 1000*30, fixedDelay = 1000*60*1)
 	public void evictBuckets() {
 
-		log.info("Started bucket eviction.");
-
 		this.bucketRepository.evictBuckets();
-
-		log.info("Bucket eviction done.");
 	}
 }
