@@ -2,8 +2,17 @@ package com.github.cbuschka.tmply.domain;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -18,6 +27,28 @@ public class BucketRepository
 	private static Logger log = LoggerFactory.getLogger(BucketRepository.class);
 
 	private Map<String, Bucket> buckets = new HashMap<>(MAX_BUCKET_COUNT * 2);
+
+	@PostConstruct
+	protected synchronized void load()
+	{
+		try
+		{
+			File tmpFile = new File("/tmp/buckets.dat");
+			if (tmpFile.isFile())
+			{
+				ObjectInputStream objIn = new ObjectInputStream(new FileInputStream(tmpFile));
+				Map<String, Bucket> tmpBuckets = (Map<String, Bucket>) objIn.readObject();
+				this.buckets.putAll(tmpBuckets);
+				objIn.close();
+
+				log.info("Buckets loaded from {}.", tmpFile);
+			}
+		}
+		catch (Exception ex)
+		{
+			log.error("Error loading buckets.", ex);
+		}
+	}
 
 	public synchronized Bucket putBucket(String bucketName, String data)
 	{
@@ -71,5 +102,30 @@ public class BucketRepository
 		}
 
 		log.info("{} bucket(s) in use after eviction, {} removed.", this.buckets.size(), bucketsBeforeEviction - this.buckets.size());
+	}
+
+	@PreDestroy
+	@Scheduled(initialDelay = 1000 * 30, fixedDelay = 1000 * 30)
+	public synchronized void store()
+	{
+		try
+		{
+			File tmpFileNew = new File("/tmp/buckets.dat." + System.currentTimeMillis());
+			ObjectOutputStream objOut = new ObjectOutputStream(new FileOutputStream(tmpFileNew));
+			objOut.writeObject(this.buckets);
+			objOut.close();
+			File tmpFile = new File("/tmp/buckets.dat");
+			if (tmpFile.isFile())
+			{
+				tmpFile.delete();
+			}
+			tmpFileNew.renameTo(tmpFile);
+
+			log.info("Buckets stored to {}.", tmpFile);
+		}
+		catch (Exception ex)
+		{
+			log.error("Error storing buckets.", ex);
+		}
 	}
 }
