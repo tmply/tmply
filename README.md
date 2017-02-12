@@ -10,8 +10,6 @@
 Live at [tmply on heroku](https://tmply.herokuapp.com).
 
 ## TODOs
-* add server side rendering of first page
-* length checks
 * IP based throttling to prevent DOS
 * expiry time customization
 * info when bucket will expire
