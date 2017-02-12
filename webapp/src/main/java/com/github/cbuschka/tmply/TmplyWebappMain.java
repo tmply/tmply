@@ -8,7 +8,9 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.ServletContext;
@@ -17,8 +19,10 @@ import javax.servlet.ServletException;
 @EnableAutoConfiguration
 @Configuration
 @ComponentScan(basePackageClasses = {TmplyWebappMain.class})
-@PropertySource(value="classpath:application.properties")
+@PropertySource(value = {"classpath:application.properties", "classpath:application.${env}.properties"})
 @EnableScheduling
+@EnableJpaRepositories
+@EnableTransactionManagement
 @EnableWebMvc
 public class TmplyWebappMain extends SpringBootServletInitializer
 {
@@ -29,14 +33,14 @@ public class TmplyWebappMain extends SpringBootServletInitializer
 	}
 
 	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
+	public void onStartup(ServletContext servletContext) throws ServletException
+	{
 		super.onStartup(servletContext);
-
-		servletContext.getSessionCookieConfig().setDomain("localhost");
 	}
 
 	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application)
+	{
 		return application.sources(TmplyWebappMain.class);
 	}
 }

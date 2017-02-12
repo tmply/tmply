@@ -1,18 +1,18 @@
 package com.github.cbuschka.tmply.business;
 
-public class PublishBucketRequest
+public class BucketDto
 {
 	private String bucketName;
 
 	private String data;
 
-	public PublishBucketRequest()
-	{
-	}
 
-	public String getBucketName()
+	public BucketDto() {}
+
+	public BucketDto(String bucketName, String data)
 	{
-		return bucketName;
+		this.bucketName = bucketName;
+		this.data = data;
 	}
 
 	public void setBucketName(String bucketName)
@@ -20,13 +20,18 @@ public class PublishBucketRequest
 		this.bucketName = bucketName;
 	}
 
-	public String getData()
+	public String getBucketName()
 	{
-		return data;
+		return bucketName;
 	}
 
 	public void setData(String data)
 	{
 		this.data = data;
+	}
+
+	public String getData()
+	{
+		return data;
 	}
 }

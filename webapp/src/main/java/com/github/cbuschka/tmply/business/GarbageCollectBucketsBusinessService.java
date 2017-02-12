@@ -1,21 +1,22 @@
 package com.github.cbuschka.tmply.business;
 
-import com.github.cbuschka.tmply.domain.BucketRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.cbuschka.tmply.domain.BucketDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class GarbageCollectBucketsBusinessService
 {
 	@Autowired
-	private BucketRepository bucketRepository;
+	private BucketDomainService bucketDomainService;
 
 	@Scheduled(initialDelay = 1000 * 30, fixedDelay = 1000 * 30)
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void evictBuckets()
 	{
-		this.bucketRepository.evictBuckets();
+		this.bucketDomainService.evictBuckets();
 	}
 }

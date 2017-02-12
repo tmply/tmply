@@ -1,9 +1,9 @@
 package com.github.cbuschka.tmply.controllers;
 
-import com.github.cbuschka.tmply.domain.Bucket;
+import com.github.cbuschka.tmply.business.BucketDto;
+import com.github.cbuschka.tmply.domain.BucketEntity;
 import com.github.cbuschka.tmply.business.ConsumeBucketBusinessService;
 import com.github.cbuschka.tmply.business.PublishBucketBusinessService;
-import com.github.cbuschka.tmply.business.PublishBucketRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,9 +26,9 @@ public class BucketResource
 	@RequestMapping(value = "/api/buckets/{bucketName}", method = RequestMethod.GET)
 	public
 	@ResponseBody
-	ResponseEntity<Bucket> getBucket(@PathVariable("bucketName") String bucketName)
+	ResponseEntity<BucketDto> getBucket(@PathVariable("bucketName") String bucketName)
 	{
-		Bucket bucket = this.consumeBucketBusinessService.consume(bucketName);
+		BucketDto bucket = this.consumeBucketBusinessService.consume(bucketName);
 		if (bucket == null)
 		{
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -40,7 +40,7 @@ public class BucketResource
 	@RequestMapping(value = "/api/buckets", method = RequestMethod.POST)
 	public
 	@ResponseBody
-	ResponseEntity<Bucket> publishBucket(@RequestBody PublishBucketRequest request)
+	ResponseEntity<BucketDto> publishBucket(@RequestBody BucketDto request)
 	{
 		if (request.getBucketName() == null || request.getBucketName().trim().length() < 8 || request.getBucketName().length() >= 100)
 		{
@@ -52,8 +52,7 @@ public class BucketResource
 			throw new IllegalArgumentException("Invalid bucket data, is required and must be shorter than 100 characters.");
 		}
 
-		Bucket bucket = this.publishBucketBusinessService.publish(request);
+		BucketDto bucket = this.publishBucketBusinessService.publish(request);
 		return new ResponseEntity<>(bucket, HttpStatus.OK);
-
 	}
 }

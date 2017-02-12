@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -Dserver.port=$PORT -jar tmply-webapp.war
+web: java $JAVA_OPTS -Dserver.port=$PORT -Dspring.datasource.url=$SPRING_DATASOURCE_URL -Dspring.datasource.username=$SPRING_DATSOURCE_USERNAME -Dspring.datasource.password=$SPRING_DATASOURCE_PASSWORD -Denv=prod -jar tmply-webapp.war
