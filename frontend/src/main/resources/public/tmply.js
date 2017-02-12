@@ -39,6 +39,19 @@ $(function () {
         }
     };
 
+    var ajaxCount = 0;
+    $(document).ajaxStart(function () {
+        ajaxCount++;
+        $body.addClass('progress');
+    });
+    $(document).ajaxComplete(function () {
+        ajaxCount--;
+        if (ajaxCount === 0) {
+            $body.removeClass('progress');
+        }
+    });
+
+    var $body = $('body');
     var $bucketNameInput = $('#bucketNameInput');
     var $bucketDataInput = $('#bucketDataInput');
     var $messagePanel = $('#messagePanel');

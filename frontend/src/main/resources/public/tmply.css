@@ -8,10 +8,26 @@ footer {
     margin-top: 3em;
 }
 
+#messagePanel {
+    display: inline-block;
+    height: 2em;
+}
+
 #github-link {
     padding-left: 1em;
     background-image: url('/images/github.png');
     background-repeat: no-repeat;
     background-position: left;
     background-size: contain;
+}
+
+img#progress {
+    display: none;
+    border: 0;
+    padding: 0;
+}
+
+.progress img#progress {
+    display: inline-block;
+    float: left;
 }
