@@ -1,4 +1,4 @@
-# tmply - Temporary Variable as a service [![Build Status](https://travis-ci.org/cbuschka/tmply.svg)](https://travis-ci.org/cbuschka/tmply)
+# tmply - Temporary Variable as a service [![Build Status](https://travis-ci.org/cbuschka/tmply.svg?branch=master)](https://travis-ci.org/cbuschka/tmply)
 
 #### (No, this is no extension to going serverless!)
 
