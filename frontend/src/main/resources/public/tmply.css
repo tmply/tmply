@@ -9,7 +9,7 @@ footer {
 }
 
 #messagePanel {
-    display: inline-block;
+    display: block;
     height: 2em;
 }
 
@@ -28,6 +28,11 @@ img#progress {
 }
 
 .progress img#progress {
-    display: inline-block;
+    display: block;
     float: left;
+}
+
+.statsPanel {
+    margin-top: 1em;
+    font-size: smaller;
 }

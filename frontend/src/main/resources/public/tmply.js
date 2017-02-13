@@ -14,102 +14,137 @@ $(function () {
         }
     };
 
-    var BucketResource = {
-        publishBucket: function publichBucket(request, successCallback, errorCallback) {
-            $.ajax({
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                type: "POST",
-                url: Config.getUrlFor('/buckets'),
-                data: JSON.stringify(request),
-                success: successCallback,
-                error: errorCallback,
-                dataType: 'json'
-            });
-        },
-        fetchBucket: function fetchBucket(bucketName, successCallback, errorCallback) {
-            $.ajax({
-                type: "GET",
-                url: Config.getUrlFor('/buckets/' + bucketName),
-                success: successCallback,
-                error: errorCallback,
-                dataType: 'json'
-            });
+    var BucketResource = (function () {
+        var noop = function () {
         }
-    };
 
-    var ajaxCount = 0;
-    $(document).ajaxStart(function () {
-        ajaxCount++;
-        $body.addClass('progress');
-    });
-    $(document).ajaxComplete(function () {
-        ajaxCount--;
-        if (ajaxCount === 0) {
-            $body.removeClass('progress');
-        }
-    });
+        return {
+            publishBucket: function publichBucket(request, successCallback, errorCallback) {
+                $.ajax({
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    type: "POST",
+                    url: Config.getUrlFor('/buckets'),
+                    data: JSON.stringify(request),
+                    success: successCallback || noop,
+                    error: errorCallback || noop,
+                    dataType: 'json'
+                });
+            },
+            fetchBucket: function fetchBucket(bucketName, successCallback, errorCallback) {
+                $.ajax({
+                    type: "GET",
+                    url: Config.getUrlFor('/buckets/' + bucketName),
+                    success: successCallback || noop,
+                    error: errorCallback || noop,
+                    dataType: 'json'
+                });
+            }
+        };
+    })();
 
-    var $body = $('body');
-    var $bucketNameInput = $('#bucketNameInput');
-    var $bucketDataInput = $('#bucketDataInput');
-    var $messagePanel = $('#messagePanel');
-    var $publishButton = $('#publishButton');
-    var $fetchButton = $('#fetchButton');
+    (function () {
+        var $body = $('body');
+        var $document = $(document);
 
-    function updateButtonStates() {
-        var publishEnabled = $bucketNameInput.val().length > 7 && $bucketDataInput.val().length > 0;
-        $publishButton.prop('disabled', !publishEnabled);
-
-        var fetchEnabled = $bucketNameInput.val().length > 7;
-        $fetchButton.prop('disabled', !fetchEnabled);
-    }
-
-    function clearMessage() {
-        $messagePanel.text("");
-    }
-
-    function setMessage(message) {
-        $messagePanel.text(message);
-        window.setTimeout(clearMessage, 3000);
-    }
-
-    function onPublishClicked(ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
-
-        var bucketName = $bucketNameInput.val();
-        var bucketData = $bucketDataInput.val();
-        BucketResource.publishBucket({bucketName: bucketName, data: bucketData}, function (response) {
-            setMessage("Published as " + bucketName + ".");
-        }, function (response) {
-            setMessage("Publishing failed.");
+        var ajaxCount = 0;
+        $document.ajaxStart(function () {
+            ajaxCount++;
+            $body.addClass('progress');
         });
-    }
-
-    function onFetchClicked(ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
-
-        var bucketName = $bucketNameInput.val();
-        BucketResource.fetchBucket(bucketName, function (response) {
-            $bucketNameInput.val(response.bucketName);
-            $bucketDataInput.val(response.data);
-            clearMessage();
-        }, function (response) {
-            if (response.status === 404) {
-                setMessage("Nothing found.");
-            } else {
-                setMessage("Fetching failed.");
+        $document.ajaxComplete(function () {
+            ajaxCount--;
+            if (ajaxCount === 0) {
+                $body.removeClass('progress');
             }
         });
-    }
+    })();
 
-    $publishButton.on('click', onPublishClicked);
-    $fetchButton.on('click', onFetchClicked);
-    $bucketNameInput.on('keyup blur change', updateButtonStates);
-    $bucketDataInput.on('keyup blur change', updateButtonStates);
+    (function () {
+        var $freeBuckets = $('#freeBuckets');
+        var $maxBuckets = $('#maxBuckets');
 
-    updateButtonStates();
+        function updateStats(free, max) {
+            $freeBuckets.text(free);
+            $maxBuckets.text(max);
+        }
+
+        function reloadStats() {
+            $.ajax({
+                type: "GET",
+                url: Config.getUrlFor('/stats'),
+                success: function (response) {
+                    updateStats(response.maxBucketsCount - response.usedBucketsCount, response.maxBucketsCount);
+                },
+                dataType: 'json'
+            });
+        }
+
+        window.setInterval(reloadStats, 5000);
+        reloadStats();
+    })();
+
+    (function () {
+        var $bucketNameInput = $('#bucketNameInput');
+        var $bucketDataInput = $('#bucketDataInput');
+        var $messagePanel = $('#messagePanel');
+        var $publishButton = $('#publishButton');
+        var $fetchButton = $('#fetchButton');
+
+        function updateButtonStates() {
+            var publishEnabled = $bucketNameInput.val().length > 7 && $bucketDataInput.val().length > 0;
+            $publishButton.prop('disabled', !publishEnabled);
+
+            var fetchEnabled = $bucketNameInput.val().length > 7;
+            $fetchButton.prop('disabled', !fetchEnabled);
+        }
+
+        function clearMessage() {
+            $messagePanel.text("");
+        }
+
+        function setMessage(message) {
+            $messagePanel.text(message);
+            window.setTimeout(clearMessage, 3000);
+        }
+
+        function onPublishClicked(ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            var bucketName = $bucketNameInput.val();
+            var bucketData = $bucketDataInput.val();
+            BucketResource.publishBucket({bucketName: bucketName, data: bucketData}, function (response) {
+                setMessage("Published as " + bucketName + ".");
+            }, function (response) {
+                setMessage("Publishing failed.");
+            });
+        }
+
+        function onFetchClicked(ev) {
+            ev.preventDefault();
+            ev.stopPropagation();
+
+            var bucketName = $bucketNameInput.val();
+            BucketResource.fetchBucket(bucketName, function (response) {
+                $bucketNameInput.val(response.bucketName);
+                $bucketDataInput.val(response.data);
+                clearMessage();
+            }, function (response) {
+                if (response.status === 404) {
+                    setMessage("Nothing found.");
+                } else {
+                    setMessage("Fetching failed.");
+                }
+            });
+        }
+
+        $publishButton.on('click', onPublishClicked);
+        $fetchButton.on('click', onFetchClicked);
+        $bucketNameInput.on('keyup blur change', updateButtonStates);
+        $bucketDataInput.on('keyup blur change', updateButtonStates);
+
+        updateButtonStates();
+    })();
 });

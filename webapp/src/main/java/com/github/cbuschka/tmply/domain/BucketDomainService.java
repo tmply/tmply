@@ -16,7 +16,7 @@ import java.util.Map;
 @Transactional(propagation = Propagation.MANDATORY)
 public class BucketDomainService
 {
-	private static final int MAX_BUCKET_COUNT = 9900;
+	public static final int MAX_BUCKET_COUNT = 9900;
 	private static final long MILLIS_UNTIL_EXPIRY_AFTER_ACCESS = 1000 * 30;
 	private static final long MILLIS_UNTIL_EXPIRATION_AFTER_CREATION = 1000 * 60 * 5;
 

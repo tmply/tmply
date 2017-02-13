@@ -16,26 +16,27 @@
 <div class="container">
     <div class="row">
         <h1 class="col-12">Tmply</h1>
-    </div>
-    <div class="row">
         <h4 class="col-12">Temporary Variable as a Service</h4>
-    </div>
-    <div class="form-group col-12">
-        <input class="form-control" type="text"
-               placeholder="Choose a Bucket Name (at least 8 characters long)" value=""
-               id="bucketNameInput"/>
-    </div>
-    <div class="form-group col-12">
-        <input class="form-control" type="text" placeholder="Your Data" value=""
-               id="bucketDataInput"/>
-    </div>
-    <div class="col-12">
-        <img id="progress" src="/images/progress.gif"/>
-    <span id="messagePanel" class="col-12">
+        <div class="form-group col-12">
+            <input class="form-control" type="text"
+                   placeholder="Choose a Bucket Name (at least 8 characters long)" value=""
+                   id="bucketNameInput"/>
+        </div>
+        <div class="form-group col-12">
+            <input class="form-control" type="text" placeholder="Your Data" value=""
+                   id="bucketDataInput"/>
+        </div>
+        <div class="col-12">
+            <img id="progress" src="/images/progress.gif"/>
+            <span id="messagePanel" class="col-12">
     </span>
+        </div>
+        <button class="btn btn-primary" id="publishButton">Publish</button>
+        <button class="btn btn-primary" id="fetchButton">Fetch</button>
+        <div class="col-12 statsPanel">
+            <span id="freeBuckets">??</span> of <span id="maxBuckets">??</span> bucket(s) free.
+        </div>
     </div>
-    <button class="btn btn-primary" id="publishButton">Publish</button>
-    <button class="btn btn-primary" id="fetchButton">Fetch</button>
     <footer class="row">
         For more infos visit <a target="_blank" href="https://github.com/cbuschka/tmply" id="github-link">tmply on
         github</a>.
