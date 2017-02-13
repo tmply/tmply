@@ -21,15 +21,14 @@ footer {
     background-size: contain;
 }
 
-img#progress {
-    display: none;
+#progress {
+    visibility: hidden;
     border: 0;
     padding: 0;
 }
 
-.progress img#progress {
-    display: block;
-    float: left;
+#progress.active {
+    visibility: visible;
 }
 
 .statsPanel {

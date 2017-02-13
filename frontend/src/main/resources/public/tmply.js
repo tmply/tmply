@@ -45,19 +45,14 @@ $(function () {
     })();
 
     (function () {
-        var $body = $('body');
+        var $progressIndicator = $('#progress');
         var $document = $(document);
 
-        var ajaxCount = 0;
         $document.ajaxStart(function () {
-            ajaxCount++;
-            $body.addClass('progress');
+            $progressIndicator.addClass('active');
         });
         $document.ajaxComplete(function () {
-            ajaxCount--;
-            if (ajaxCount === 0) {
-                $body.removeClass('progress');
-            }
+            $progressIndicator.removeClass('active');
         });
     })();
 
@@ -100,13 +95,23 @@ $(function () {
             $fetchButton.prop('disabled', !fetchEnabled);
         }
 
+        var timer;
+
         function clearMessage() {
+            window.clearTimeout(timer)
             $messagePanel.text("");
+            $messagePanel.removeClass('text-info');
+            $messagePanel.removeClass('text-success');
+            $messagePanel.removeClass('text-danger');
         }
 
-        function setMessage(message) {
+        function setMessage(message, clazz) {
             $messagePanel.text(message);
-            window.setTimeout(clearMessage, 3000);
+            if (clazz) {
+                $messagePanel.addClass("text-" + clazz);
+            }
+            window.clearTimeout(timer)
+            timer = window.setTimeout(clearMessage, 3000);
         }
 
         function onPublishClicked(ev) {
@@ -116,9 +121,9 @@ $(function () {
             var bucketName = $bucketNameInput.val();
             var bucketData = $bucketDataInput.val();
             BucketResource.publishBucket({bucketName: bucketName, data: bucketData}, function (response) {
-                setMessage("Published as " + bucketName + ".");
+                setMessage("Published as " + bucketName + ".", "success");
             }, function (response) {
-                setMessage("Publishing failed.");
+                setMessage("Publishing failed.", "danger");
             });
         }
 
@@ -133,9 +138,9 @@ $(function () {
                 clearMessage();
             }, function (response) {
                 if (response.status === 404) {
-                    setMessage("Nothing found.");
+                    setMessage("Nothing found.", "info");
                 } else {
-                    setMessage("Fetching failed.");
+                    setMessage("Fetching failed.", "danger");
                 }
             });
         }
