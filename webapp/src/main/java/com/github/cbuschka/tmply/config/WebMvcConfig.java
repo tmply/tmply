@@ -15,7 +15,7 @@ import javax.servlet.DispatcherType;
 import java.util.Arrays;
 
 @Configuration
-public class WebConfig extends WebMvcConfigurerAdapter
+public class WebMvcConfig extends WebMvcConfigurerAdapter
 {
 	@Override
 	public void configureViewResolvers(ViewResolverRegistry registry)
