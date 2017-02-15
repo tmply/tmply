@@ -1,6 +1,6 @@
 package com.github.cbuschka.tmply.business;
 
-import com.github.cbuschka.tmply.domain.BucketDomainService;
+import com.github.cbuschka.tmply.domain.bucket.BucketDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

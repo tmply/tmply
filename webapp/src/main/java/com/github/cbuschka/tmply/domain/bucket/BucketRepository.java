@@ -1,4 +1,4 @@
-package com.github.cbuschka.tmply.domain;
+package com.github.cbuschka.tmply.domain.bucket;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

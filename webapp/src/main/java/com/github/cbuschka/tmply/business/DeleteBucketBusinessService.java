@@ -1,8 +1,6 @@
 package com.github.cbuschka.tmply.business;
 
-import com.github.cbuschka.tmply.domain.BucketDomainService;
-import com.github.cbuschka.tmply.domain.BucketEntity;
-import com.github.cbuschka.tmply.domain.BucketRepository;
+import com.github.cbuschka.tmply.domain.bucket.BucketDomainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeleteBucketBusinessService
 {
 	@Autowired
-	private BucketRepository bucketRepository;
+	private BucketDomainService bucketDomainService;
 
 	public void delete(String bucketName)
 	{
-		this.bucketRepository.deleteByBucketName(bucketName);
+		this.bucketDomainService.remove(bucketName);
 	}
 }

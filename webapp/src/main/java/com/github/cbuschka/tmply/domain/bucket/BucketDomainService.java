@@ -1,4 +1,4 @@
-package com.github.cbuschka.tmply.domain;
+package com.github.cbuschka.tmply.domain.bucket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 @Service
@@ -79,5 +78,10 @@ public class BucketDomainService
 		long countAfterEviction = this.bucketRepository.count();
 
 		log.info("{} bucket(s) in use after eviction, {} removed.", countAfterEviction, countBeforeviction - countAfterEviction);
+	}
+
+	public void remove(String bucketName)
+	{
+		this.bucketRepository.deleteByBucketName(bucketName);
 	}
 }

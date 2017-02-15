@@ -1,4 +1,4 @@
-package com.github.cbuschka.tmply.domain;
+package com.github.cbuschka.tmply.domain.bucket;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

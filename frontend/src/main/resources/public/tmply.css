@@ -35,3 +35,7 @@ footer {
     margin-top: 1em;
     font-size: smaller;
 }
+
+.noSubscriber #subscribeButton {
+    display: none;
+}

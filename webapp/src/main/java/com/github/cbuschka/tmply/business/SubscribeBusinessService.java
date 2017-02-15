@@ -11,28 +11,28 @@ import org.springframework.web.socket.WebSocketSession;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
-public class PublishBucketBusinessService
+public class SubscribeBusinessService
 {
-	@Autowired
-	private BucketDomainService bucketDomainService;
 	@Autowired
 	private WebSocketSessionRepository webSocketSessionRepository;
 	@Autowired
+	private BucketDomainService bucketDomainService;
+	@Autowired
 	private DeliverBucketBusinessService deliverBucketBusinessService;
 
-	public BucketDto publish(BucketDto request)
+	public void addSubscription(WebSocketSession webSocketSession, String bucketName)
 	{
-		WebSocketSession subscriber = this.webSocketSessionRepository.getSubscriber(request.getBucketName());
-		if (subscriber != null)
+		this.webSocketSessionRepository.subscribe(webSocketSession, bucketName);
+		deliverBucketIfFilled(webSocketSession, bucketName);
+	}
+
+	private void deliverBucketIfFilled(WebSocketSession webSocketSession, String bucketName)
+	{
+		BucketEntity bucket = this.bucketDomainService.getBucket(bucketName);
+		if (bucket != null)
 		{
-			this.deliverBucketBusinessService.deliver(request.getBucketName(), request.getData(), subscriber);
-			this.webSocketSessionRepository.unsubscribe(request.getBucketName(), subscriber);
-			return request;
-		}
-		else
-		{
-			BucketEntity bucketEntity = this.bucketDomainService.putBucket(request.getBucketName(), request.getData());
-			return new BucketDto(bucketEntity.getBucketName(), bucketEntity.getData());
+			this.deliverBucketBusinessService.deliver(bucket.getBucketName(), bucket.getData(), webSocketSession);
+			this.bucketDomainService.remove(bucketName);
 		}
 	}
 }
