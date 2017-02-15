@@ -13,4 +13,6 @@ public interface BucketRepository extends JpaRepository<BucketEntity, Long>
 	BucketEntity findByBucketName(String bucketName);
 
 	void deleteByExpiryTimeLessThan(Date expiryTime);
+
+	void deleteByBucketName(String bucketName);
 }

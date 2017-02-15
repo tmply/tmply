@@ -1,17 +1,25 @@
 $(function () {
     var Config = {
-        getUrlFor: function getBaseUrl(path) {
-            if (typeof window === 'undefined') {
-                return undefined;
-            }
-
+        getUrlFor: function getUrlFor(path) {
             var loc = window.location;
             if (loc.port == 8081) {
                 return loc.protocol + "//" + loc.hostname + ":" + 8080 + "/api" + path;
             }
 
             return loc.protocol + "//" + loc.host + "/api" + path;
-        }
+        },
+        getWsUrl: function getWsUrl() {
+            var loc = window.location;
+            if (loc.port == 8081 || loc.port == 8080) {
+                return "ws://" + loc.hostname + ":" + 8080 + "/api/ws";
+            }
+            else if (loc.port == 80) {
+                return "ws://" + loc.hostname + "/api/ws";
+            }
+
+            return "wss://" + loc.host + "/api/ws";
+        },
+
     };
 
     var BucketResource = (function () {
@@ -151,5 +159,26 @@ $(function () {
         $bucketDataInput.on('keyup blur change', updateButtonStates);
 
         updateButtonStates();
+    })();
+
+
+    (function () {
+        if (typeof window.WebSocket === 'undefined') {
+            return;
+        }
+
+        var ws = new WebSocket(Config.getWsUrl());
+        ws.onopen = function (ev) {
+            console.log("ws openend");
+        }
+        ws.onclose = function (ev) {
+            console.log("ws closed");
+        }
+        ws.onerror = function (ev) {
+            console.log("ws error");
+        }
+        ws.onmessage = function (ev) {
+            console.log("ws message");
+        }
     })();
 });

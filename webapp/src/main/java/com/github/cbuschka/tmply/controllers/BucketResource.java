@@ -1,6 +1,7 @@
 package com.github.cbuschka.tmply.controllers;
 
 import com.github.cbuschka.tmply.business.BucketDto;
+import com.github.cbuschka.tmply.business.DeleteBucketBusinessService;
 import com.github.cbuschka.tmply.domain.BucketEntity;
 import com.github.cbuschka.tmply.business.ConsumeBucketBusinessService;
 import com.github.cbuschka.tmply.business.PublishBucketBusinessService;
@@ -23,7 +24,20 @@ public class BucketResource
 	@Autowired
 	private PublishBucketBusinessService publishBucketBusinessService;
 
+	@Autowired
+	private DeleteBucketBusinessService deleteBucketBusinessService;
+
 	@RequestMapping(value = "/api/buckets/{bucketName}", method = RequestMethod.GET)
+	public
+	@ResponseBody
+	ResponseEntity<?> deleteBucket(@PathVariable("bucketName") String bucketName)
+	{
+		this.deleteBucketBusinessService.delete(bucketName);
+
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
+
+	@RequestMapping(value = "/api/buckets/{bucketName}", method = RequestMethod.DELETE)
 	public
 	@ResponseBody
 	ResponseEntity<BucketDto> getBucket(@PathVariable("bucketName") String bucketName)
@@ -47,7 +61,8 @@ public class BucketResource
 			throw new IllegalArgumentException("Invalid bucket name '" + request.getBucketName() + "', must be longer than 7 characters and shorter than 100.");
 		}
 
-		if( request.getData() == null || request.getData().length() >= 100 ) {
+		if (request.getData() == null || request.getData().length() >= 100)
+		{
 
 			throw new IllegalArgumentException("Invalid bucket data, is required and must be shorter than 100 characters.");
 		}
