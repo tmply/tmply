@@ -3,6 +3,7 @@
 #### (No, this is no extension to going serverless!)
 
 ## What is tmply?
+* A small webpage.
 * You create a named bucket with data.
 * Another person can access this bucket by name.
 * The bucket will expire in 5 minutes or shortly after it has been accessed.
