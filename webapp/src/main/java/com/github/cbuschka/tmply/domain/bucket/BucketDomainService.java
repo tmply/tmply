@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@Transactional(propagation = Propagation.MANDATORY)
 public class BucketDomainService
 {
 	@Autowired
@@ -26,6 +25,7 @@ public class BucketDomainService
 
 	private Map<String, BucketEntity> buckets = new HashMap<>();
 
+	@Transactional(propagation = Propagation.MANDATORY)
 	public synchronized BucketEntity putBucket(String bucketName, String data)
 	{
 		long now = System.currentTimeMillis();
@@ -53,6 +53,7 @@ public class BucketDomainService
 		return bucket;
 	}
 
+	@Transactional(propagation = Propagation.MANDATORY)
 	public BucketEntity getBucket(String bucketName)
 	{
 		long now = System.currentTimeMillis();
@@ -69,6 +70,7 @@ public class BucketDomainService
 		return bucket;
 	}
 
+	@Transactional(propagation = Propagation.MANDATORY)
 	public void evictBuckets()
 	{
 		long countBeforeviction = this.bucketRepository.count();
@@ -80,6 +82,7 @@ public class BucketDomainService
 		log.info("{} bucket(s) in use after eviction, {} removed.", countAfterEviction, countBeforeviction - countAfterEviction);
 	}
 
+	@Transactional(propagation = Propagation.MANDATORY)
 	public void remove(String bucketName)
 	{
 		this.bucketRepository.deleteByBucketName(bucketName);
