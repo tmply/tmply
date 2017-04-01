@@ -16,6 +16,8 @@ import java.util.List;
 public class BroadcastStatsBusinessService
 {
 	@Autowired
+	private BucketDomainService bucketDomainService;
+	@Autowired
 	private BucketRepository bucketRepository;
 	@Autowired
 	private WebSocketSessionRepository webSocketSessionRepository;
@@ -26,7 +28,7 @@ public class BroadcastStatsBusinessService
 	public void broadcastStats()
 	{
 		int bucketsInUseCount = (int) this.bucketRepository.count();
-		int maxBucketsCount = BucketDomainService.MAX_BUCKET_COUNT;
+		int maxBucketsCount = this.bucketDomainService.maxBucketCount();
 		StatsNotification statsNotification = new StatsNotification(maxBucketsCount, maxBucketsCount - bucketsInUseCount);
 		List<WebSocketSession> sessions = this.webSocketSessionRepository.getSessions();
 		for (WebSocketSession session : sessions)

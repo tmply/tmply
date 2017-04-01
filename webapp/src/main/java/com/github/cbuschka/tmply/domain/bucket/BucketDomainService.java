@@ -1,5 +1,6 @@
 package com.github.cbuschka.tmply.domain.bucket;
 
+import com.github.cbuschka.tmply.config.AppConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,16 +16,15 @@ import java.util.Map;
 @Transactional(propagation = Propagation.MANDATORY)
 public class BucketDomainService
 {
-	public static final int MAX_BUCKET_COUNT = 9900;
-	private static final long MILLIS_UNTIL_EXPIRY_AFTER_ACCESS = 1000 * 30;
-	private static final long MILLIS_UNTIL_EXPIRATION_AFTER_CREATION = 1000 * 60 * 5;
+	@Autowired
+	private AppConfig appConfig;
 
 	@Autowired
 	private BucketRepository bucketRepository;
 
 	private static Logger log = LoggerFactory.getLogger(BucketDomainService.class);
 
-	private Map<String, BucketEntity> buckets = new HashMap<>(MAX_BUCKET_COUNT * 2);
+	private Map<String, BucketEntity> buckets = new HashMap<>();
 
 	public synchronized BucketEntity putBucket(String bucketName, String data)
 	{
@@ -34,18 +34,18 @@ public class BucketDomainService
 		if (bucket == null)
 		{
 			long count = this.bucketRepository.count();
-			if (count >= MAX_BUCKET_COUNT)
+			if (count >= this.appConfig.maxBucketCount)
 			{
 				throw new IllegalStateException("No bucket slot available. Retry later.");
 			}
 
-			bucket = new BucketEntity(bucketName, data, new Date(now + MILLIS_UNTIL_EXPIRATION_AFTER_CREATION));
+			bucket = new BucketEntity(bucketName, data, new Date(now + appConfig.durationUntilBucketExpiryAfterCreationInMillis));
 			this.bucketRepository.save(bucket);
 		}
 		else
 		{
 			bucket.setData(data);
-			bucket.setExpiryTime(new Date(now + MILLIS_UNTIL_EXPIRATION_AFTER_CREATION));
+			bucket.setExpiryTime(new Date(now + appConfig.durationUntilBucketExpiryAfterCreationInMillis));
 		}
 
 		log.info("Bucket {} added or updated.", bucketName);
@@ -63,7 +63,7 @@ public class BucketDomainService
 			return null;
 		}
 
-		bucket.setExpiryTime(new Date(now + MILLIS_UNTIL_EXPIRY_AFTER_ACCESS));
+		bucket.setExpiryTime(new Date(now + appConfig.durationUntilBucketExpiryAfterAccessInMillis));
 		log.info("Bucket {} accessed.", bucketName);
 
 		return bucket;
@@ -83,5 +83,10 @@ public class BucketDomainService
 	public void remove(String bucketName)
 	{
 		this.bucketRepository.deleteByBucketName(bucketName);
+	}
+
+	public int maxBucketCount()
+	{
+		return appConfig.maxBucketCount;
 	}
 }

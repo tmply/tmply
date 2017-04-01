@@ -20,7 +20,7 @@ public class GetStatsBusinessService
 	public StatsDto getStats()
 	{
 		int bucketsInUseCount = (int)this.bucketRepository.count();
-		int maxBucketsCount = BucketDomainService.MAX_BUCKET_COUNT;
+		int maxBucketsCount = this.bucketDomainService.maxBucketCount();
 		return new StatsDto(maxBucketsCount, bucketsInUseCount);
 	}
 }
