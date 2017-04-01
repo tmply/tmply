@@ -4,6 +4,7 @@ import com.github.cbuschka.tmply.business.BucketDto;
 import com.github.cbuschka.tmply.business.ConsumeBucketBusinessService;
 import com.github.cbuschka.tmply.business.DeleteBucketBusinessService;
 import com.github.cbuschka.tmply.business.PublishBucketBusinessService;
+import com.github.cbuschka.tmply.config.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BucketResource
 {
+	@Autowired
+	private AppConfig appConfig;
+
 	@Autowired
 	private ConsumeBucketBusinessService consumeBucketBusinessService;
 
@@ -55,18 +59,26 @@ public class BucketResource
 	@ResponseBody
 	ResponseEntity<BucketDto> publishBucket(@RequestBody BucketDto request)
 	{
-		if (request.getBucketName() == null || request.getBucketName().trim().length() < 8 || request.getBucketName().length() >= 100)
-		{
-			throw new IllegalArgumentException("Invalid bucket name '" + request.getBucketName() + "', must be longer than 7 characters and shorter than 100.");
-		}
-
-		if (request.getData() == null || request.getData().length() >= 100)
-		{
-
-			throw new IllegalArgumentException("Invalid bucket data, is required and must be shorter than 100 characters.");
-		}
+		checkBucketKey(request);
+		checkBucketValue(request);
 
 		BucketDto bucket = this.publishBucketBusinessService.publish(request);
 		return new ResponseEntity<>(bucket, HttpStatus.OK);
+	}
+
+	private void checkBucketValue(BucketDto request)
+	{
+		if (request.getData() == null || request.getData().length() >= this.appConfig.maxBucketValueLength)
+		{
+			throw new IllegalArgumentException(String.format("Invalid bucket data, is required and must be shorter than %s characters.", this.appConfig.maxBucketValueLength));
+		}
+	}
+
+	private void checkBucketKey(BucketDto request)
+	{
+		if (request.getBucketName() == null || request.getBucketName().trim().length() < appConfig.minBucketKeyLength || request.getBucketName().length() > appConfig.maxBucketKeyLength)
+		{
+			throw new IllegalArgumentException(String.format("Invalid bucket name '" + request.getBucketName() + "', must be at least %d characters long and shorter than %d.", appConfig.minBucketKeyLength, appConfig.maxBucketKeyLength+1));
+		}
 	}
 }
