@@ -4,7 +4,7 @@ var context = {};
     context.Config = {
         getUrlFor: function getUrlFor(path) {
             var loc = window.location;
-            if (loc.port == 8081) {
+            if (loc.port == 8081 || loc.port == 8888) {
                 return loc.protocol + "//" + loc.hostname + ":" + 8080 + "/api" + path;
             }
 
@@ -12,7 +12,7 @@ var context = {};
         },
         getWsUrl: function getWsUrl() {
             var loc = window.location;
-            if (loc.port == 8081 || loc.port == 8080) {
+            if (loc.port == 8081 || loc.port == 8080 || loc.port == 8888) {
                 return "ws://" + loc.hostname + ":" + 8080 + "/api/ws";
             }
             else if (loc.port == 80) {

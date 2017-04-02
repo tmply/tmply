@@ -1,0 +1,41 @@
+html {
+  font-family: arial, sans-serif;
+}
+
+footer {
+  border-top: 1px solid lightgray;
+  padding-top: 1em;
+  margin-top: 3em;
+}
+
+#messagePanel {
+  display: block;
+  height: 2em;
+}
+
+#github-link {
+  padding-left: 1em;
+  background-image: url('/assets/images/github.png');
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: contain;
+}
+
+#progress {
+  visibility: hidden;
+  border: 0;
+  padding: 0;
+}
+
+#progress.active {
+  visibility: visible;
+}
+
+.statsPanel {
+  margin-top: 1em;
+  font-size: smaller;
+}
+
+.noSubscriber #subscribeButton {
+  display: none;
+}
