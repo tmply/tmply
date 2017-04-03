@@ -83,8 +83,8 @@ class AppStore {
     }
 
     update(ev) {
-        this.data.publishEnabled = this.data.bucketKey.length > 8 && this.data.bucketValue.length > 0;
-        this.data.fetchEnabled = this.data.bucketKey.length > 8;
+        this.data.publishEnabled = this.data.bucketKey.length > 0 && this.data.bucketValue.length > 0;
+        this.data.fetchEnabled = this.data.bucketKey.length > 0;
         this.notifyListeners(ev);
     }
 

@@ -68,7 +68,7 @@ export default class App extends React.Component {
                 <h4 className="col-12">Temporary Variable as a Service</h4>
                 <div className="form-group col-12">
                     <input className="form-control" type="text"
-                           placeholder="Choose a Bucket Name (at least 8 characters long)"
+                           placeholder="Choose a Bucket Name"
                            value={state.data.bucketKey}
                            id="bucketNameInput" onChange={this._onBucketKeyChanged}/>
                 </div>
