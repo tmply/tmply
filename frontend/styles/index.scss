@@ -27,7 +27,7 @@ footer {
   padding: 0;
 }
 
-#progress.active {
+body.loading #progress {
   visibility: visible;
 }
 
@@ -36,6 +36,6 @@ footer {
   font-size: smaller;
 }
 
-.noSubscriber #subscribeButton {
-  display: none;
+.buttonPanel .btn {
+  margin-right: 0.5em;
 }
