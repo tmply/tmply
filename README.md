@@ -7,6 +7,7 @@
 * You create a named bucket with data.
 * Another person can access this bucket by name.
 * The bucket will expire in 5 minutes or shortly after it has been accessed.
+* Bucket names and contents encrypted.
 
 Live at [tmply on heroku](https://tmply.herokuapp.com).
 
@@ -14,8 +15,8 @@ Live at [tmply on heroku](https://tmply.herokuapp.com).
 * IP based throttling to prevent DOS
 * expiry time customization
 * info when bucket will expire
-* generated bucket extension (e.g. shadow -> shadow 2017)
-* explicit expiry?
+
+[See Issues for more](https://github.com/cbuschka/tmply/issues).
 
 ## Author
 Written by [Cornelius Buschka](https://github.com/cbuschka).
