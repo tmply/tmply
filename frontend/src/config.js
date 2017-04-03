@@ -1,10 +1,7 @@
 var Config = {
     server: window.location.host,
     getUrlFor: function (path) {
-        return "http://" + this.server + "/api" + path;
-    },
-    getWsUrl: function () {
-        return "ws://" + this.server + "/api/ws";
+        return window.location.protocol + "//" + this.server + "/api" + path;
     }
 }
 
