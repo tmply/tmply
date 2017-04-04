@@ -31,6 +31,7 @@
                     <doCheck>false</doCheck>
                     <doUpdate>false</doUpdate>
                     <addOutputDirectoryToResources>true</addOutputDirectoryToResources>
+                    <timestampFormat>yyyy-MM-dd'T'HH:mm:ss.SSSXXX</timestampFormat>
                 </configuration>
             </plugin>
             <plugin>
