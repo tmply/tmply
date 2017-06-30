@@ -7,3 +7,8 @@ addons:
 script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 jdk:
   - oraclejdk8
+cache:
+  directories:
+    - '$HOME/.m2/repository'
+    - '$HOME/.sonar/cache'
+
