@@ -1,4 +1,4 @@
-# tmply - Temporary Variable as a service [![Build Status](https://travis-ci.org/cbuschka/tmply.svg?branch=master)](https://travis-ci.org/cbuschka/tmply)
+# tmply - Temporary Variable as a service [![Build Status](https://travis-ci.org/cbuschka/tmply.svg?branch=master)](https://travis-ci.org/cbuschka/tmply) [![Quality Gate](https://sonarqube.com/api/badges/gate?key=com.github.cbuschka:tmply)](https://sonarcloud.io/dashboard?id=com.github.cbuschka%3Atmply)
 
 #### (No, this is no extension to going serverless!)
 
