@@ -4,7 +4,6 @@ import changeBucketKey from '../actions/change-bucket-key-action';
 import changeBucketValue from '../actions/change-bucket-value-action';
 import publishBucket from '../actions/publish-bucket-action';
 import fetchBucket from '../actions/fetch-bucket-action';
-import ifDefined from '../util/if-defined';
 import appStore from '../stores/app-store';
 
 export default class App extends React.Component {
