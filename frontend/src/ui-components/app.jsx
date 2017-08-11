@@ -6,6 +6,7 @@ import publishBucket from '../actions/publish-bucket-action';
 import fetchBucket from '../actions/fetch-bucket-action';
 import appStore from '../stores/app-store';
 import StatusPanel from './status-panel.jsx';
+import MessagePanel from './message-panel.jsx';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -79,12 +80,8 @@ export default class App extends React.Component {
                       onChange={this._onBucketValueChanged}/>
                 </div>
             </div>
-            <div className="row">
-                <div className="col-12">
-                    <span id="messagePanel"
-                          className={"col-12 text-" + state.data.messageType}>{state.data.message}</span>
-                </div>
-            </div>
+            <MessagePanel message={state.data.message}
+                          messageType={state.data.messageType}/>
             <div className="row buttonPanel">
                 <button className="btn btn-primary"
                         onClick={this._onPublishClicked}
