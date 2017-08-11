@@ -5,6 +5,7 @@ import changeBucketValue from '../actions/change-bucket-value-action';
 import publishBucket from '../actions/publish-bucket-action';
 import fetchBucket from '../actions/fetch-bucket-action';
 import appStore from '../stores/app-store';
+import StatusPanel from './status-panel.jsx';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -94,12 +95,7 @@ export default class App extends React.Component {
                 </button>
                 <img id="progress" src="/assets/images/progress.gif"/>
             </div>
-            <div className="row">
-                <div className="col-12 statsPanel">
-                    <span id="freeBuckets">{state.data.freeBuckets}</span> of <span
-                    id="maxBuckets">{state.data.maxBuckets}</span> bucket(s) free.
-                </div>
-            </div>
+            <StatusPanel maxBuckets="state.data.maxBuckets" freeBuckets="state.data.freeBuckets" />
             <div className="row" id="app">
             </div>
             <footer className="row">
