@@ -65,7 +65,7 @@ export default class App extends React.Component {
     render() {
         var state = this.state;
 
-        return <div className="container">
+        return (<div className="container">
             <div className="row">
                 <h1 className="col-12">Tmply</h1>
                 <h4 className="col-12">Temporary Variable as a Service</h4>
@@ -76,16 +76,12 @@ export default class App extends React.Component {
             </div>
             <MessagePanel message={state.data.message}
                           messageType={state.data.messageType}/>
-            <div className="row buttonPanel">
-                <button className="btn btn-primary"
-                        onClick={this._onPublishClicked}
-                        disabled={!state.data.publishEnabled} id="publishButton">Publish
-                </button>
-                <button className="btn btn-primary" disabled={!state.data.fetchEnabled} id="fetchButton"
-                        onClick={this._onFetchClicked}>Fetch
-                </button>
-                <img id="progress" src="/assets/images/progress.gif"/>
-            </div>
+            <BucketActionsPanel
+                publishHandler={this._onPublishClicked}
+                publishEnabled={state.data.publishEnabled}
+                fetchHandler={this._onFetchClicked}
+                fetchEnabled={state.data.fetchEnabled}
+            />
             <StatusPanel maxBuckets="state.data.maxBuckets" freeBuckets="state.data.freeBuckets" />
             <div className="row" id="app">
             </div>
@@ -94,6 +90,6 @@ export default class App extends React.Component {
                 on
                 github</a>.
             </footer>
-        </div>;
+        </div>);
     }
 }
