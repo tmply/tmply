@@ -8,6 +8,7 @@ import appStore from '../stores/app-store';
 import StatusPanel from './status-panel';
 import MessagePanel from './message-panel';
 import BucketKeyInput from './bucket-key-input';
+import BucketDataInput from './bucket-data-input';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -70,12 +71,8 @@ export default class App extends React.Component {
                 <h4 className="col-12">Temporary Variable as a Service</h4>
                 <BucketKeyInput value={state.data.bucketKey}
                              changeHandler={this._onBucketKeyChanged}/>
-                <div className="form-group col-12">
-            <textarea className="form-control" rows="6" placeholder="Your Data"
-                      id="bucketDataInput"
-                      value={state.data.bucketValue}
-                      onChange={this._onBucketValueChanged}/>
-                </div>
+                <BucketDataInput value={state.data.bucketValue}
+                                changeHandler={this._onBucketValueChanged}/>
             </div>
             <MessagePanel message={state.data.message}
                           messageType={state.data.messageType}/>
