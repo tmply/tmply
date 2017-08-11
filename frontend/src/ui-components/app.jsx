@@ -5,8 +5,9 @@ import changeBucketValue from '../actions/change-bucket-value-action';
 import publishBucket from '../actions/publish-bucket-action';
 import fetchBucket from '../actions/fetch-bucket-action';
 import appStore from '../stores/app-store';
-import StatusPanel from './status-panel.jsx';
-import MessagePanel from './message-panel.jsx';
+import StatusPanel from './status-panel';
+import MessagePanel from './message-panel';
+import BucketKeyInput from './bucket-key-input';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -67,12 +68,8 @@ export default class App extends React.Component {
             <div className="row">
                 <h1 className="col-12">Tmply</h1>
                 <h4 className="col-12">Temporary Variable as a Service</h4>
-                <div className="form-group col-12">
-                    <input className="form-control" type="text"
-                           placeholder="Choose a Bucket Name"
-                           value={state.data.bucketKey}
-                           id="bucketNameInput" onChange={this._onBucketKeyChanged}/>
-                </div>
+                <BucketKeyInput value={state.data.bucketKey}
+                             changeHandler={this._onBucketKeyChanged}/>
                 <div className="form-group col-12">
             <textarea className="form-control" rows="6" placeholder="Your Data"
                       id="bucketDataInput"
