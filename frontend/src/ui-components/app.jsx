@@ -83,8 +83,6 @@ export default class App extends React.Component {
                 fetchEnabled={state.data.fetchEnabled}
             />
             <StatusPanel maxBuckets="state.data.maxBuckets" freeBuckets="state.data.freeBuckets" />
-            <div className="row" id="app">
-            </div>
             <footer className="row">
                 For more infos visit <a target="_blank" href="https://github.com/cbuschka/tmply" id="github-link">tmply
                 on
