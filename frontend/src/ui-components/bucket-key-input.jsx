@@ -1,10 +1,6 @@
 import React from 'react';
 
 export default class BucketKeyInput extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         var value = this.props.value;
         var changeHandler = this.props.changeHandler;
