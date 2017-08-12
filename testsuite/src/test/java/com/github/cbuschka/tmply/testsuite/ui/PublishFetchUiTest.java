@@ -18,56 +18,29 @@ public class PublishFetchUiTest
 	private long testNumber = System.currentTimeMillis();
 
 	private WebDriver webDriver;
+	private TmplyPage tmplyPage;
 
 	@Before
 	public void setUp()
 	{
 		webDriver = new ChromeDriver();
+		tmplyPage = new TmplyPage(webDriver);
 	}
 
 	@Test
 	public void unpublishedBucketIsEmpty()
 	{
-		webDriver.get("http://localhost:8081/");
-
-		WebElement bucketNameInput = getBucketNameInput();
-		assertThat(bucketNameInput.isDisplayed(), is(true));
-
 		String bucketName = "bucket#" + testNumber;
-		bucketNameInput.sendKeys(bucketName);
 
-		WebElement fetchButton = getFetchButton();
-		fetchButton.click();
+		tmplyPage.navigateTo();
 
-		waitForBucketEmptyMessage();
-	}
+		assertThat(tmplyPage.isBucketNameInputPresent(), is(true));
 
-	private void waitForBucketEmptyMessage()
-	{
-		WebElement messagePanel = getMessagePanel();
+		tmplyPage.setBucketName(bucketName);
 
-		WebDriverWait webDriverWait = new WebDriverWait(this.webDriver, 3);
-		webDriverWait.until(ExpectedConditions.textToBePresentInElement(messagePanel, "No such bucket."));
-	}
+		tmplyPage.clickFetchButtonAndWaitForBucketEmptyMessage();
 
-	private WebElement getMessagePanel()
-	{
-		return webDriver.findElement(By.id("messagePanel"));
-	}
-
-	private WebElement getFetchButton()
-	{
-		return webDriver.findElement(By.id("fetchButton"));
-	}
-
-	private WebElement getBucketNameInput()
-	{
-		return webDriver.findElement(By.id("bucketNameInput"));
-	}
-
-	private WebElement getBucketDataInput()
-	{
-		return webDriver.findElement(By.id("bucketDataInput"));
+		assertThat(tmplyPage.getBucketData(), is(""));
 	}
 
 	@After
