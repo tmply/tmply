@@ -11,6 +11,30 @@
 
 Live at [tmply on heroku](https://tmply.herokuapp.com).
 
+## Developing
+You need 
+* [Apache Maven](https://maven.apache.org/).
+* For the development database: [Docker](https://docs.docker.com/engine/installation/), or alternatively [PostgreSQL](https://www.postgresql.org/) preinstalled.
+
+### Build
+```bash
+mvn clean install
+```
+### Run integration tests
+```bash
+mvn clean install -Pintegration-tests
+```
+### Development
+Beside starting the webapp you need to run
+```bash
+yarn start
+```
+from frontend/ folder.
+
+Node.JS, Yarn and node modules will be installed on first maven build.
+
+### Starting from 
+
 ## TODOs
 * IP based throttling to prevent DOS
 * expiry time customization
