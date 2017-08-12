@@ -12,9 +12,10 @@
 Live at [tmply on heroku](https://tmply.herokuapp.com).
 
 ## Developing
-You need 
-* [Apache Maven](https://maven.apache.org/).
-* For the development database: [Docker](https://docs.docker.com/engine/installation/), or alternatively [PostgreSQL](https://www.postgresql.org/) preinstalled.
+You need: 
+* [Apache Maven](https://maven.apache.org/)
+* for the development database: [Docker](https://docs.docker.com/engine/installation/), or alternatively [PostgreSQL](https://www.postgresql.org/) preinstalled
+* [Google Chrome](https://www.google.com/chrome/browser/desktop/index.html) and [Chrome Driver](https://sites.google.com/a/chromium.org/chromedriver/) for the selenium tests.
 
 ### Build
 ```bash
@@ -23,6 +24,10 @@ mvn clean install
 ### Run integration tests
 ```bash
 mvn clean install -Pintegration-tests
+```
+### Run selenium tests
+```bash
+mvn clean install -Pui-tests
 ```
 ### Development
 Beside starting the webapp you need to run
