@@ -9,6 +9,7 @@ import StatusPanel from './status-panel';
 import MessagePanel from './message-panel';
 import BucketKeyInput from './bucket-key-input';
 import BucketDataInput from './bucket-data-input';
+import BucketActionsPanel from './bucket-actions-panel';
 
 export default class App extends React.Component {
     constructor(props) {
