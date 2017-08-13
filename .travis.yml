@@ -1,7 +1,7 @@
 language: java
 addons:
   sonarcloud:
-    organization: fluentxml4j
+    organization: tmply
     token:
       secure: "cXb5Bevm+eBSZ/GhJ0DgZM1u4sT/uHovpUiAGpJz/qxM2cC1+5SD3wY4gV+khUTLiCn3X6iJvLw19WUKS8Zthyv697x7CiObl+FoSL/oQbQSBcBSkbQqYjgKVML8rG5W0SWf58RwkHfqM5Et6h6buQ0baXaiUqiPxDljpPc4dghwhEaohNdSWqj/pdITZKPD9bCJM1MQg7CuJHFMpqfrBRA+wqYVxYURNgTVPdAS3EJ+gylWE73AP/07W+a2qBpgfwAizCFUDSw90YPt0zW2FlJDvRXcXB1rojvBKEL6dZGfrKShG0UNzRUY7M1MiWt8Lt7U6igYbkG9t3OYIySey5B4W6B7v4aswGcrli92/+7HrdqlIUnSjYXURHZ0v8fqMMDkfp0lURsyJfeeg6iYcuOtfusmEeQf0nJDBp64CCUEuYpQrGnshbSbcW+OHu9ZhmcyoVuCY1PacJFsPhh/+3cX0qKReW2r0mJzuibg9FHuNv169phuEgbBjjF30X5BB2TWR6nc6VpFLPH1z5RkQw9yydZanIo8Q8kpxkNllMy6eBtpx+ErA9Yu1GE1WbOCtKJGCd9lKGJUiBA5SXVr8PIAse98AiQP2iXeSgeRaHd4W5VzZ22IUFUoAFyJ5Egm4y3VQPEip3LbxGcd6+I0IljOwnTUMS1X91gDasEKBlE="
 script: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
