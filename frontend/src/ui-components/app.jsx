@@ -85,7 +85,7 @@ export default class App extends React.Component {
             />
             <StatusPanel maxBuckets={state.data.maxBuckets} freeBuckets={state.data.freeBuckets} />
             <footer className="row">
-                For more infos visit <a target="_blank" href="https://github.com/cbuschka/tmply" id="github-link">tmply
+                For more infos visit <a target="_blank" href="https://github.com/tmply/tmply" id="github-link">tmply
                 on
                 github</a>.
             </footer>
