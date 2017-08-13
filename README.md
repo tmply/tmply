@@ -2,14 +2,16 @@
 
 #### (No, this is no extension to going serverless!)
 
+Live at [tmply on heroku](https://tmply.herokuapp.com).
+
+This repository is available at [tmply on github](https://github.com/tmply/tmply).
+
 ## What is tmply?
 * A small webpage.
 * You create a named bucket with data.
 * Another person can access this bucket by name.
 * The bucket will expire in 5 minutes or shortly after it has been accessed.
 * Bucket names and contents encrypted.
-
-Live at [tmply on heroku](https://tmply.herokuapp.com).
 
 ## Developing
 You need: 
