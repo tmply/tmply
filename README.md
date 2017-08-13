@@ -47,7 +47,7 @@ Node.JS, Yarn and node modules will be installed on first maven build.
 * expiry time customization
 * info when bucket will expire
 
-[See Issues for more](https://github.com/cbuschka/tmply/issues).
+[See Issues for more](https://github.com/tmpl/tmply/issues).
 
 ## Author
 Written by [Cornelius Buschka](https://github.com/cbuschka).
