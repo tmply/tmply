@@ -68,7 +68,7 @@ export default class App extends React.Component {
 
         return (<div className="container">
             <div className="row">
-                <h1 className="col-12">Tmply</h1>
+                <h1 className="col-12"><img id="logo" src="/assets/images/logo.png"/> Tmply</h1>
                 <h4 className="col-12">Temporary Variable as a Service</h4>
                 <BucketKeyInput value={state.data.bucketKey}
                              changeHandler={this._onBucketKeyChanged}/>
