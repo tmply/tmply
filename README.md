@@ -40,8 +40,6 @@ from frontend/ folder.
 
 Node.JS, Yarn and node modules will be installed on first maven build.
 
-### Starting from 
-
 ## TODOs
 * IP based throttling to prevent DOS
 * expiry time customization
